@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jegadeeshwaran — QA Automation Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --accent: #00e5a0;
+    --accent2: #7c5cfc;
+    --text: #f0efe8;
+    --muted: #7a7a8a;
+    --border: rgba(255,255,255,0.08);
+    --card: rgba(255,255,255,0.04);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glow orbs */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(124,92,252,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb2 {
+    position: fixed;
+    bottom: -150px;
+    left: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  section, nav, footer { position: relative; z-index: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 60px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-content { max-width: 720px; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    border: 1px solid rgba(0,229,160,0.3);
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    letter-spacing: 1px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(42px, 7vw, 76px);
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+  }
+
+  h1 .accent { color: var(--accent); }
+  h1 .dim { color: var(--muted); font-weight: 400; }
+
+  .hero-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    color: var(--muted);
+    margin: 20px 0 28px;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-story {
+    font-size: 17px;
+    color: rgba(240,239,232,0.7);
+    max-width: 580px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    border-left: 2px solid var(--accent2);
+    padding-left: 20px;
+  }
+
+  .hero-story strong { color: var(--text); font-weight: 500; }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #0a0a0f;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #00ffb3; transform: translateY(-2px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    background: var(--card);
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* STATS */
+  .stats-bar {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 60px;
+  }
+
+  .stats-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    color: var(--accent);
+    letter-spacing: -1px;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 60px;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 42px);
+    letter-spacing: -1px;
+    margin-bottom: 48px;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    gap: 24px;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .project-card:hover { border-color: rgba(0,229,160,0.2); transform: translateY(-4px); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .project-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .project-card p {
+    color: rgba(240,239,232,0.6);
+    font-size: 15px;
+    margin-bottom: 24px;
+    line-height: 1.7;
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: rgba(124,92,252,0.12);
+    border: 1px solid rgba(124,92,252,0.25);
+    color: #a98fff;
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.5px;
+  }
+
+  .project-links { display: flex; gap: 12px; }
+
+  .link-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+
+  .link-github {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .link-github:hover { border-color: var(--accent); color: var(--accent); }
+
+  .test-count {
+    position: absolute;
+    top: 36px; right: 36px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    color: rgba(0,229,160,0.08);
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .skill-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.2s;
+  }
+
+  .skill-item:hover {
+    border-color: rgba(0,229,160,0.2);
+    background: rgba(0,229,160,0.04);
+  }
+
+  .skill-icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .skill-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .skill-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* JOURNEY */
+  .journey {
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .journey::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+  }
+
+  .journey-item {
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+  .journey-item::before {
+    content: '';
+    position: absolute;
+    left: -38px;
+    top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 12px rgba(0,229,160,0.4);
+  }
+
+  .journey-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .journey-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .journey-desc {
+    color: rgba(240,239,232,0.6);
+    font-size: 14px;
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .contact-left h2 { margin-bottom: 16px; }
+
+  .contact-left p {
+    color: rgba(240,239,232,0.6);
+    font-size: 16px;
+    margin-bottom: 32px;
+  }
+
+  .contact-links { display: flex; flex-direction: column; gap: 16px; }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 15px;
+    padding: 16px 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.2s;
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .contact-link-icon {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    width: 24px;
+  }
+
+  .open-to {
+    background: rgba(0,229,160,0.06);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 16px;
+    padding: 32px;
+  }
+
+  .open-to-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 16px;
+    color: var(--accent);
+  }
+
+  .open-to ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .open-to li {
+    font-size: 14px;
+    color: rgba(240,239,232,0.8);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .open-to li::before {
+    content: '→';
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 24px;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* Animations */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.35s; }
+  .delay-4 { animation-delay: 0.5s; }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    #hero { padding: 100px 24px 60px; }
+    .stats-inner { grid-template-columns: repeat(2,1fr); }
+    .stats-bar { padding: 32px 24px; }
+    .section { padding: 60px 24px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .contact-inner { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb2"></div>
+
+<nav>
+  <div class="nav-logo">JM.</div>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#journey">Journey</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-tag fade-in">AVAILABLE FOR WORK · SINGAPORE</div>
+
+    <h1 class="fade-in delay-1">
+      Jegadeesh<span class="accent">waran</span><br>
+      <span class="dim">Madhiyazagan</span>
+    </h1>
+
+    <p class="hero-role fade-in delay-2">// QA Automation Engineer · Singapore</p>
+
+    <p class="hero-story fade-in delay-3">
+      A Civil Engineer turned QA Automation Engineer — 7 years on construction sites taught me that <strong>catching defects early saves everything</strong>. That same mindset now drives my approach to test automation, backed by <strong>2 live GitHub projects</strong> and a passion for software quality.
+    </p>
+
+    <div class="hero-cta fade-in delay-4">
+      <a href="#projects" class="btn-primary">→ View Projects</a>
+      <a href="mailto:jegadeeshwaran5342@gmail.com" class="btn-secondary">✉ Get In Touch</a>
+      <a href="resume.pdf" download class="btn-secondary">↓ Download Resume</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div>
+      <div class="stat-num">12+</div>
+      <div class="stat-label">Test Scenarios</div>
+    </div>
+    <div>
+      <div class="stat-num">2</div>
+      <div class="stat-label">Live Projects</div>
+    </div>
+    <div>
+      <div class="stat-num" style="font-size:18px;line-height:1.3;">Stable</div>
+      <div class="stat-label">Test Execution</div>
+    </div>
+    <div>
+      <div class="stat-num">UI+API</div>
+      <div class="stat-label">Coverage</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects" class="section">
+  <p class="section-label">// 01 — projects</p>
+  <h2>What I've Built</h2>
+
+  <div class="projects-grid">
+
+    <!-- SauceDemo -->
+    <div class="project-card">
+      <div class="test-count">07</div>
+      <p class="project-type">UI Automation</p>
+      <h3>SauceDemo</h3>
+      <p>Designed test scenarios covering positive, negative and boundary cases to simulate real-world user behavior. Implemented Page Object Model for clean, maintainable test architecture with reusable components across all test flows. Identified edge-case issues in login validation and cart state handling during test design.</p>
+      <div class="tech-tags">
+        <span class="tag">Selenium WebDriver</span>
+        <span class="tag">TestNG</span>
+        <span class="tag">Page Object Model</span>
+        <span class="tag">Java</span>
+        <span class="tag">Maven</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/jegawaran3/saucedemo-selenium-testng" target="_blank" class="link-btn link-github">View Framework Code →</a>
+      </div>
+      <div style="margin-top:24px;">
+        <p style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1px;margin-bottom:12px;">EXTENT REPORT — ALL CRITICAL TESTS PASSING</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <img src="report2.png" alt="ExtentReport Dashboard" style="width:100%;border-radius:8px;border:1px solid rgba(0,229,160,0.2);">
+          <img src="report1.png" alt="ExtentReport Test Details" style="width:100%;border-radius:8px;border:1px solid rgba(0,229,160,0.2);">
+        </div>
+      </div>
+    </div>
+
+    <!-- RestfulBooker -->
+    <div class="project-card">
+      <div class="test-count">05</div>
+      <p class="project-type">API Automation</p>
+      <h3>RestfulBooker</h3>
+      <p>Applied API validation logic — verifying status codes, response payloads, data integrity and token-based authentication flows to ensure reliable backend functionality. Full CRUD coverage with structured assertions. Validated error handling and identified inconsistencies in authentication and response data.</p>
+      <div class="tech-tags">
+        <span class="tag">RestAssured</span>
+        <span class="tag">TestNG</span>
+        <span class="tag">Java</span>
+        <span class="tag">Maven</span>
+        <span class="tag">JSON</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/jegawaran3/restfulbooker-api-testing" target="_blank" class="link-btn link-github">View Framework Code →</a>
+      </div>
+      <div style="margin-top:24px;">
+        <p style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1px;margin-bottom:12px;">EXTENT REPORT — ALL CRITICAL TESTS PASSING</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <img src="api-report2.png" alt="API Report Dashboard" style="width:100%;border-radius:8px;border:1px solid rgba(0,229,160,0.2);">
+          <img src="api-report1.png" alt="API Report Test Details" style="width:100%;border-radius:8px;border:1px solid rgba(0,229,160,0.2);">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHAT I BRING -->
+<section class="section" style="padding-top:0">
+  <p class="section-label">// 03 — what i bring</p>
+  <h2>Why Hire Me</h2>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+
+    <div class="skill-item">
+      <div class="skill-icon">🏗️</div>
+      <div class="skill-name">Construction Precision → QA Mindset</div>
+      <div class="skill-type" style="margin-top:8px;line-height:1.6;">7 years on construction sites taught me that catching defects early saves everything. I bring that same zero-defect mindset to software testing.</div>
+    </div>
+
+    <div class="skill-item">
+      <div class="skill-icon">🔧</div>
+      <div class="skill-name">Hands-on Framework Builder</div>
+      <div class="skill-type" style="margin-top:8px;line-height:1.6;">Built 2 complete automation frameworks from scratch — UI and API — proving I can learn fast and deliver independently.</div>
+    </div>
+
+    <div class="skill-item">
+      <div class="skill-icon">🧠</div>
+      <div class="skill-name">QA Thinking — Not Just Tools</div>
+      <div class="skill-type" style="margin-top:8px;line-height:1.6;">Designed test scenarios across positive, negative and boundary conditions. Applied API validation logic to verify status codes, response payloads and authentication flows — focusing on real defect detection, not just automation execution.</div>
+    </div>
+
+    <div class="skill-item">
+      <div class="skill-icon">📍</div>
+      <div class="skill-name">Singapore-Based</div>
+      <div class="skill-type" style="margin-top:8px;line-height:1.6;">Available for immediate joining. No visa complications. Local candidate ready to contribute from day one.</div>
+    </div>
+
+    <div class="skill-item">
+      <div class="skill-icon">⚡</div>
+      <div class="skill-name">Proof Over Claims</div>
+      <div class="skill-type" style="margin-top:8px;line-height:1.6;">Transitioned from zero coding to building 2 complete automation frameworks — UI and API — in under a year. Not just a fast learner, but a proven self-starter with working GitHub projects to show for it.</div>
+    </div>
+
+    <div class="skill-item">
+      <div class="skill-icon">📋</div>
+      <div class="skill-name">QA Process Knowledge</div>
+      <div class="skill-type" style="margin-top:8px;line-height:1.6;">Familiar with Agile (Scrum), SDLC/STLC processes, regression testing, smoke testing and test case design. Basic understanding of CI/CD pipelines (Jenkins/GitHub Actions).</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section" style="padding-top:0">
+  <p class="section-label">// 04 — skills</p>
+  <h2>Tech Stack</h2>
+
+  <div class="skills-grid">
+    <div class="skill-item">
+      <div class="skill-icon">🔬</div>
+      <div class="skill-name">Selenium</div>
+      <div class="skill-type">UI Automation</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">🧪</div>
+      <div class="skill-name">TestNG</div>
+      <div class="skill-type">Test Framework</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-name">RestAssured</div>
+      <div class="skill-type">API Testing</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">☕</div>
+      <div class="skill-name">Java</div>
+      <div class="skill-type">Language</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">📐</div>
+      <div class="skill-name">Page Object Model</div>
+      <div class="skill-type">Design Pattern</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">🔧</div>
+      <div class="skill-name">Maven</div>
+      <div class="skill-type">Build Tool</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">🐙</div>
+      <div class="skill-name">Git & GitHub</div>
+      <div class="skill-type">Version Control</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">🏗️</div>
+      <div class="skill-name">Eclipse IDE</div>
+      <div class="skill-type">Development</div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey" class="section" style="padding-top:0">
+  <p class="section-label">// 05 — journey</p>
+  <h2>My Path Here</h2>
+
+  <div class="journey">
+    <div class="journey-item">
+      <div class="journey-year">2017</div>
+      <div class="journey-title">B.E. Civil Engineering</div>
+      <div class="journey-desc">Graduated with strong foundations in analytical thinking, precision and systematic problem-solving — the same mindset I now apply to QA Automation.</div>
+    </div>
+    <div class="journey-item">
+      <div class="journey-year">2017 – 2024</div>
+      <div class="journey-title">Site Supervisor · India</div>
+      <div class="journey-desc">Managed construction projects developing sharp attention to detail and the discipline to catch defects before they become problems.</div>
+    </div>
+    <div class="journey-item">
+      <div class="journey-year">2025</div>
+      <div class="journey-title">Relocated to Singapore</div>
+      <div class="journey-desc">Working as a Supervisor while actively upskilling in QA Automation — committed to transitioning into software quality engineering.</div>
+    </div>
+    <div class="journey-item">
+      <div class="journey-year">2025 – Now</div>
+      <div class="journey-title">Building Automation Frameworks</div>
+      <div class="journey-desc">Hands-on experience building UI and API automation frameworks using Selenium, TestNG, RestAssured, Java and Maven — with ExtentReports for professional HTML test reporting.</div>
+    </div>
+    <div class="journey-item">
+      <div class="journey-year">Next</div>
+      <div class="journey-title">Joining a QA Team · Singapore</div>
+      <div class="journey-desc">7 years of field discipline meets modern test automation. Ready to contribute to a QA team in Singapore with real project experience, a sharp eye for defects, and the drive to grow fast.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <p class="section-label">// 06 — contact</p>
+      <h2>Let's Talk</h2>
+      <p>I'm actively looking for QA Automation roles in Singapore. If you're hiring or know someone who is — I'd love to connect.</p>
+      <div class="contact-links">
+        <a href="mailto:jegadeeshwaran5342@gmail.com" class="contact-link">
+          <span class="contact-link-icon">@</span>
+          jegadeeshwaran5342@gmail.com
+        </a>
+        <a href="https://github.com/jegawaran3" target="_blank" class="contact-link">
+          <span class="contact-link-icon">GH</span>
+          github.com/jegawaran3
+        </a>
+        <a href="https://www.linkedin.com/in/jegadeeshwaran-madhiyazagan-847724401" target="_blank" class="contact-link">
+          <span class="contact-link-icon">in</span>
+          linkedin.com/in/jegadeeshwaran-madhiyazagan
+        </a>
+      </div>
+    </div>
+
+    <div class="open-to">
+      <div class="open-to-title">Open To</div>
+      <ul>
+        <        <li>QA Automation Engineer (Entry-Level with Professional Experience)</li>
+        <li>SDET / Software Test Engineer</li>
+        <li>QA Intern with growth path</li>
+        <li>Singapore-
